@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Confirm Delete Category</title>
+</head>
+<body>
+<h1>Confirm Delete Category</h1>
+<p>Are you sure you want to delete the category "<span th:text="${category.name}"></span>" and all its associated products?</p>
+<form action="#" th:action="@{/category/delete/{id}(id=${category.id})}" method="post">
+    <button type="submit" name="confirm" value="true">Yes</button>
+    <a href="#" th:href="@{/category}">No</a>
+</form>
+</body>
+</html>

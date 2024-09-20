@@ -4,6 +4,7 @@ import org.java5.demojava5.model.Product;
 import org.java5.demojava5.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -40,5 +41,14 @@ public class ProductServices {
         } else {
             return null;
         }
+    }
+
+    public List<Product> findByCategoryId(Long categoryId) {
+        return productRepository.findByCategoryId(categoryId);
+    }
+
+    @Transactional
+    public void deleteByCategoryId(Long categoryId) {
+        productRepository.deleteByCategoryId(categoryId);
     }
 }

@@ -1,7 +1,9 @@
 package org.java5.demojava5.controller;
 
 import org.java5.demojava5.model.Category;
+import org.java5.demojava5.model.Product;
 import org.java5.demojava5.services.CategoryServices;
+import org.java5.demojava5.services.ProductServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +16,9 @@ import java.util.List;
 public class CategoryController {
     @Autowired
     private CategoryServices categoryServices;
+
+    @Autowired
+    private ProductServices productServices;
 
     @GetMapping({"/", ""})
     public String listCategory(Model model) {
@@ -67,8 +72,25 @@ public class CategoryController {
     }
 
     @GetMapping("/delete/{id}")
-    public String deleteCategory(@PathVariable Long id) {
-        categoryServices.deleteCategory(id);
+    public String confirmDeleteCategory(@PathVariable Long id, Model model) {
+        Category category = categoryServices.getCategoryById(id);
+        List<Product> products = productServices.findByCategoryId(id);
+        if (products != null && !products.isEmpty()) {
+            model.addAttribute("category", category);
+            model.addAttribute("products", products);
+            return "category/confirm-delete";
+        } else {
+            categoryServices.deleteCategory(id);
+            return "redirect:/category";
+        }
+    }
+
+    @PostMapping("/delete/{id}")
+    public String deleteCategory(@PathVariable Long id, @RequestParam boolean confirm) {
+        if (confirm) {
+            productServices.deleteByCategoryId(id);
+            categoryServices.deleteCategory(id);
+        }
         return "redirect:/category";
     }
 }
