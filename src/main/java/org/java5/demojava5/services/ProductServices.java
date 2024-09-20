@@ -37,6 +37,7 @@ public class ProductServices {
             existingProduct.setQuantity(product.getQuantity());
             existingProduct.setDescription(product.getDescription());
             existingProduct.setCategory(product.getCategory());
+            existingProduct.setStatus(product.isStatus());
             return productRepository.save(existingProduct);
         } else {
             return null;
@@ -50,5 +51,9 @@ public class ProductServices {
     @Transactional
     public void deleteByCategoryId(Long categoryId) {
         productRepository.deleteByCategoryId(categoryId);
+    }
+
+    public List<Product> findActiveProducts() {
+        return productRepository.findByStatus(true);
     }
 }

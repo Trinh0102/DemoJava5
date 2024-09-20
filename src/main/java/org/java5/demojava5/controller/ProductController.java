@@ -28,10 +28,11 @@ public class ProductController {
     }
 
     @GetMapping("/view/{id}")
-    public String getProductById(@PathVariable Long id, Model model) {
+    public String getProductById(@PathVariable Long id, @RequestParam(required = false) String source, Model model) {
         Product product = productServices.getProductById(id);
         if (product != null) {
             model.addAttribute("product", product);
+            model.addAttribute("source", source);
             return "product/view";
         } else {
             return "error/404";
