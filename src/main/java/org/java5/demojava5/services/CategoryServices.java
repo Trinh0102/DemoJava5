@@ -39,4 +39,8 @@ public class CategoryServices {
             return null;
         }
     }
+
+    public List<Category> findActiveCategories() {
+        return categoryRepository.findByStatus(true);
+    }
 }

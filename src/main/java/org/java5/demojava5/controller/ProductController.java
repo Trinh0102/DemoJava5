@@ -41,8 +41,8 @@ public class ProductController {
 
     @GetMapping("/create")
     public String showCreateProductForm(Model model) {
-        List<Category> categories = categoryServices.listAll();
-        model.addAttribute("categories", categories);
+        List<Category> activeCategories = categoryServices.findActiveCategories();
+        model.addAttribute("categories", activeCategories);
         model.addAttribute("product", new Product());
         return "product/create";
     }
@@ -57,8 +57,8 @@ public class ProductController {
     public String showUpdateProductForm(@PathVariable Long id, Model model) {
         Product product = productServices.getProductById(id);
         if (product != null) {
-            List<Category> categories = categoryServices.listAll();
-            model.addAttribute("categories", categories);
+            List<Category> activeCategories = categoryServices.findActiveCategories();
+            model.addAttribute("categories", activeCategories);
             model.addAttribute("product", product);
             return "product/update";
         } else {
