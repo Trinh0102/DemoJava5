@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Category List</title>
+</head>
+<body>
+<h1>Category List</h1>
+<a href="#" th:href="@{/category/create}">Create New Category</a>
+<table border="1">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Status</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="category : ${categories}">
+        <td th:text="${category.id}"></td>
+        <td th:text="${category.name}"></td>
+        <td th:text="${category.description}"></td>
+        <td th:text="${category.status} ? 'Active' : 'Inactive'"></td>
+        <td>
+            <a th:href="@{/category/view/{id}(id=${category.id})}">View</a>
+            <a th:href="@{/category/update/{id}(id=${category.id})}">Update</a>
+            <a th:href="@{/category/delete/{id}(id=${category.id})}"
+               onclick="return confirm('Are you sure?')">Delete</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

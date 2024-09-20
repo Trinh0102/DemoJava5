@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>View Product</title>
+</head>
+<body>
+<h1>Product Details</h1>
+<p><strong>ID:</strong> <span th:text="${product.id}"></span></p>
+<p><strong>Name:</strong> <span th:text="${product.name}"></span></p>
+<p><strong>Description:</strong> <span th:text="${product.description}"></span></p>
+<p><strong>Price:</strong> <span th:text="${product.price}"></span></p>
+<p><strong>Quantity:</strong> <span th:text="${product.quantity}"></span></p>
+<p><strong>Status:</strong> <span th:text="${product.status} ? 'Active' : 'Inactive'"></span></p>
+<p><strong>Category:</strong> <span th:text="${product.category.name}"></span></p>
+<a href="#" th:href="@{/product}">Back to List</a>
+</body>
+</html>
