@@ -30,4 +30,9 @@ public class AuthController {
     public String showLoginForm() {
         return "login";
     }
+
+    @GetMapping("/access-denied")
+    public String accessDenied() {
+        return "lib/access-denied";
+    }
 }

@@ -16,8 +16,11 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/register", "/login", "/css/**", "/js/**","/",
-                                "/category/view/{id}","/product/view/{id}").permitAll()
+                        .requestMatchers("/css/**", "/js/**", "/").permitAll()
+                        .requestMatchers("/register", "/login").not().authenticated()
+                        .requestMatchers("/category/**", "/product/update/**", "/product/create",
+                                "/product/delete/**", "/product").hasRole("ADMIN")
+                        .requestMatchers("/product/view/**").hasAnyRole("USER", "ADMIN")
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
@@ -29,6 +32,9 @@ public class SecurityConfig {
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/")
                         .permitAll()
+                )
+                .exceptionHandling(exceptions -> exceptions
+                        .accessDeniedPage("/access-denied")
                 );
         return http.build();
     }
