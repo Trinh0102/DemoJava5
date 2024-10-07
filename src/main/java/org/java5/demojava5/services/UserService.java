@@ -36,4 +36,8 @@ public class UserService implements UserDetailsService {
                 .roles(user.getRole())
                 .build();
     }
+
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
 }

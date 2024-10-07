@@ -1,0 +1,38 @@
+<!-- src/main/resources/templates/cart/view.html -->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart</title>
+</head>
+<body>
+<h1>Your Cart</h1>
+<table>
+    <thead>
+    <tr>
+        <th>Product</th>
+        <th>Quantity</th>
+        <th>Price</th>
+        <th>Total</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="item : ${cart.items}">
+        <td th:text="${item.product.name}"></td>
+        <td th:text="${item.quantity}"></td>
+        <td th:text="${item.product.price}"></td>
+        <td th:text="${item.product.price * item.quantity}"></td>
+        <td>
+            <form th:action="@{/cart/remove}" method="post">
+                <input type="hidden" name="cartItemId" th:value="${item.id}"/>
+                <button type="submit">Remove</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<a href="#" th:href="@{/}">Back to HomePage</a>
+</body>
+</html>

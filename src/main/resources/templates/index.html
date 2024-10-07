@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <th:block th:replace="~{lib/inject}"></th:block>
     <title>FPL Shop</title>
 </head>
-
 <body>
 <nav class="navbar navbar-light" style="background-color: #eee0bd;">
     <div class="container">
@@ -31,8 +29,15 @@
             </li>
             <li class="nav-item" sec:authorize="isAuthenticated()">
                 <form class="form-inline" th:action="@{/logout}" method="post">
-                    <div class="mb-2 mb-lg-0">
+                    <div class="mb-2 mb-lg-0 me-2">
                         <button class="btn btn-outline-danger" type="submit">Logout</button>
+                    </div>
+                </form>
+            </li>
+            <li class="nav-item" sec:authorize="hasRole('USER')">
+                <form class="form-inline">
+                    <div class="mb-2 mb-lg-0">
+                        <button class="btn btn-outline-success" type="button" th:onclick="|window.location.href='@{/cart}'|">My Cart</button>
                     </div>
                 </form>
             </li>
@@ -50,6 +55,7 @@
                 <th>Price</th>
                 <th>Quantity</th>
                 <th>Category</th>
+                <th>Action</th>
             </tr>
             </thead>
             <tbody>
@@ -61,6 +67,13 @@
                 <td th:text="${product.price}"></td>
                 <td th:text="${product.quantity}"></td>
                 <td th:text="${product.category.name}"></td>
+                <td>
+                    <form th:action="@{/cart/add}" method="post" sec:authorize="hasRole('USER')" class="add-to-cart-form">
+                        <input type="hidden" name="productId" th:value="${product.id}"/>
+                        <input type="hidden" name="quantity" value="1"/>
+                        <button type="submit" class="btn btn-primary">Add to Cart</button>
+                    </form>
+                </td>
             </tr>
             </tbody>
         </table>
@@ -71,6 +84,26 @@
 <script>
     $(document).ready(function () {
         $('#myTable').DataTable();
+
+        $('.add-to-cart-form').on('submit', function (event) {
+            event.preventDefault();
+            var $form = $(this);
+            $.ajax({
+                type: $form.attr('method'),
+                url: $form.attr('action'),
+                data: $form.serialize(),
+                success: function (response) {
+                    if (response === 'Out of stock') {
+                        alert('Out of stock');
+                    } else {
+                        alert('Product added to cart!');
+                    }
+                },
+                error: function () {
+                    alert('Failed to add product to cart.');
+                }
+            });
+        });
     });
 </script>
 </body>
