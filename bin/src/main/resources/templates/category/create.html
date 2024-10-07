@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <th:block th:replace="~{lib/inject}"></th:block>
+    <title>Create Category</title>
+</head>
+<body>
+<h1>Create Category</h1>
+<form action="#" th:action="@{/category/create}" th:object="${category}" method="post">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" required>
+    <label for="description">Description:</label>
+    <input type="text" id="description" name="description" required>
+    <label for="status">Status:</label>
+    <input type="checkbox" id="status" name="status">
+    <button type="submit">Create</button>
+</form>
+</body>
+</html>
